@@ -8,16 +8,16 @@ import Dialog from 'material-ui/Dialog'
 import Drawer from 'material-ui/Drawer/Drawer';
 import { MenuItem, Menu, TextField } from 'material-ui';
 import FlatButton from 'material-ui/FlatButton/FlatButton';
-import { blue200, green200, red200, grey300, red100 } from 'material-ui/styles/colors';
+import { blue200, green200, red200, grey300, red100, red300 } from 'material-ui/styles/colors';
 import { green100 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
+import DatePicker from 'material-ui/DatePicker'
 var people =[
-    {FirstName:'Chathura',LastName:'Yapa',BirthTown:'Colombo',BirthYear:'1990'},
-    {FirstName:'Andres',LastName:'Iniesta',BirthTown:'Madrid',BirthYear:'1989'},
-    {FirstName:'Raul',LastName:'Gonzalez',BirthTown:'Tampere',BirthYear:'1991'},
-    {FirstName:'Isco',LastName:'Alcarez',BirthTown:'Barcelona',BirthYear:'1994'},
+    {FirstName:'Chathura',LastName:'Yapa',BirthTown:'Colombo',BirthDate:'1/1/1990'},
+    {FirstName:'Andres',LastName:'Iniesta',BirthTown:'Madrid',BirthDate:'4/4/1960'},
+    {FirstName:'Raul',LastName:'Gonzalez',BirthTown:'Tampere',BirthDate:'7/3/2001'},
+    {FirstName:'Isco',LastName:'Alcarez',BirthTown:'Barcelona',BirthDate:'15/11/1995'},
 ]
 
 class App extends Component{
@@ -62,13 +62,12 @@ class App extends Component{
                     </Menu>
                 </Drawer>
 
-                <Paper style={{width:450}}>
+                <Paper style={{width:500,backgroundColor:red300}}>
                 <PeopleForm
                  id='person-form'
                  person= {people[this.state.index]} // Pass the current person information to the child component
                 >
                 </PeopleForm>
-             
                 </Paper>
 
             </MuiThemeProvider>
@@ -78,13 +77,14 @@ class App extends Component{
 }
 
 class PeopleForm extends Component{
+  
     constructor(props){
-
         super();
         this.state={
             dialogStat:false,
             editableValue:'',
-            editableField:''
+            editableField:'',
+            d: new Date(1990,1,1)
         }
     }
 
@@ -99,18 +99,23 @@ class PeopleForm extends Component{
         let currFieldName = this.state.editableField;
         if(commit){             
             if(currFieldName=='firstname')
-                this.props.person.FirstName =this.state.editableValue;
+                this.props.person.FirstName = this.state.editableValue;
             else if (currFieldName=='lastname')
                 this.props.person.LastName =this.state.editableValue;
-            else if(currFieldName=='birthtown')
+            else 
                 this.props.person.BirthTown =this.state.editableValue;
-            else
-                this.props.person.BirthYear =this.state.editableValue;
         }
         this.setState({editableValue:''});// reset the editable value
         this.toggleDialog();  
     }
+
+    editBDate =(input)=>{ 
+        this.props.person.BirthDate = input  
+        this.setState({});
+    }
     
+
+
     setEditValue=(e,v)=>{
         this.setState({editableValue:v}); //set edited value
     }
@@ -152,10 +157,10 @@ class PeopleForm extends Component{
                 <TextField disabled={true} value={this.props.person.BirthTown} ></TextField> 
                 <RaisedButton label='Edit' onClick={()=>this.initEdit('birthtown')}/>
                 </div>
-            <div>Birth Year:
-                <TextField disabled={true} value={this.props.person.BirthYear}></TextField>
-                <RaisedButton label='Edit' onClick={()=>this.initEdit('birthyear')}/>
+            <div>Birth Date:
+                <DatePicker autoOk={true} value={new Date(this.props.person.BirthDate)} onChange={(e,v)=>{this.editBDate(v)}}></DatePicker>
             </div>
+           
             <Dialog 
             title="Enter new value :" 
             open={this.state.dialogStat}
