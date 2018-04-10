@@ -3,50 +3,48 @@ import './App.css';
 import { MuiThemeProvider } from 'material-ui/styles';
 import { Paper, Slider } from 'material-ui';
 
+import img1 from './images/isco0.jpg'
+import img2 from './images/isco1.jpg'
+import img3 from './images/isco2.jpg'
+import img4 from './images/isco3.jpg'
+import img5 from './images/isco4.jpg'
+import img6 from './images/isco5.jpg'
 
-
-const ROOT_PATH = './images/';
-const ZEROTH_IMG='isco0.jpg'
-const FIRST_IMG='isco1.jpg'
-const SECOND_IMG='isco2.jpg'
-const THIRD_IMG='isco3.jpg'
-const FORTH_IMG='isco4.jpg'
-const FIFTH_IMG='isco5.jpg'
 
 class App extends Component{
     constructor(){
         super();
 
         this.state={
-            imgSrc:ROOT_PATH + ZEROTH_IMG
+            imgSrc:img1
         };
     }
 
     switchImg = (e,v)=>{
-        let img='';
+        let curImg='';
         switch(v){
             case 0.0:
-                img= ZEROTH_IMG
+                curImg= img1
                 break;
             case 0.2:
-                img= FIRST_IMG
+                curImg= img2
                 break;
             case 0.4:
-                img=SECOND_IMG
+                curImg=img3
                 break;
             case 0.6:
-                img=THIRD_IMG
+                curImg=img4
                 break;
              case 0.8:
-                img=FORTH_IMG
+                curImg=img5
                 break;
             case 1:
-                img=FIFTH_IMG
+                curImg=img6
                 break;
 
         }
 
-        this.setState({imgSrc:ROOT_PATH+img})
+        this.setState({imgSrc:curImg})
     }
     render(){
         return(
